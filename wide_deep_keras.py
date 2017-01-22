@@ -19,10 +19,10 @@ def load_df(filename):
 	with open(filename, 'r') as f:
 		skiprows = 1 if 'test' in filename else 0
 		df = pd.read_csv(f, names=COLUMNS, skipinitialspace=True, skiprows=skiprows, engine='python')
-	return df.dropna(how='any', axis=0)
+        df = df.dropna(how='any', axis=0)
+	return df
 
 def preprocess(df):
-	print(df.info())
 	df[LABEL_COLUMN] = (df['income_bracket'].apply(lambda x: ">50K" in x)).astype(int)
 	df.pop("income_bracket")
 	y = df[LABEL_COLUMN].values
@@ -34,14 +34,16 @@ def preprocess(df):
 	df = pd.DataFrame(MinMaxScaler().fit_transform(df), columns=df.columns)
 
 	X = df.values
-	return X,y
+	return X, y
 
 
 def main():
 	df_train = load_df('adult.data')
 	df_test = load_df('adult.test')
+    
 	train_len = len(df_train)
 	df = pd.concat([df_train, df_test])
+    
 	X, y = preprocess(df)
 	X_train = X[:train_len]
 	y_train = y[:train_len]
@@ -56,9 +58,9 @@ def main():
 					loss='binary_crossentropy',
 					metrics=['accuracy'])
 
-	model.fit(X_train, y_train, nb_epoch=10, batch_size=32 )
+	model.fit(X_train, y_train, nb_epoch=10, batch_size=32)
 	loss, accuracy = model.evaluate(X_test, y_test)
-	print()
+	
 	print(accuracy)
 
 if __name__ == '__main__':
