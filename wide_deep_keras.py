@@ -68,8 +68,6 @@ def main():
     
     model.fit(X_train, y_train, nb_epoch=10, batch_size=32)
     loss, accuracy = model.evaluate(X_test, y_test)
-    
-    print(accuracy)
 
 if __name__ == '__main__':
     main()
