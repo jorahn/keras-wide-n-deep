@@ -34,6 +34,9 @@ def preprocess(df):
     df.pop("income_bracket")
     y = df[LABEL_COLUMN].values
     df.pop(LABEL_COLUMN)
+    
+    # TODO: select features for wide & deep parts
+    # TODO: transformations
     df = pd.get_dummies(df, columns=[x for x in CATEGORICAL_COLUMNS])
     df = pd.DataFrame(MinMaxScaler().fit_transform(df), columns=df.columns)
     
@@ -65,6 +68,7 @@ def main():
     model = Sequential()
     model.add(Merge([wide, deep], mode='concat', concat_axis=1))
     model.add(Dense(1, activation='sigmoid'))
+    
     model.compile(
         optimizer='rmsprop',
         loss='binary_crossentropy',
@@ -72,6 +76,7 @@ def main():
     )
     
     model.fit([X_train, X_train], y_train, nb_epoch=10, batch_size=32)
+    
     loss, accuracy = model.evaluate([X_test, X_test], y_test)
     print('\n', 'test accuracy:', accuracy)
     
