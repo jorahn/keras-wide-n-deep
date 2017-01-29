@@ -35,11 +35,16 @@ def preprocess(df):
     y = df[LABEL_COLUMN].values
     df.pop(LABEL_COLUMN)
     
-    # TODO: select features for wide & deep parts
-    # TODO: transformations
     df = pd.get_dummies(df, columns=[x for x in CATEGORICAL_COLUMNS])
-    df = pd.DataFrame(MinMaxScaler().fit_transform(df), columns=df.columns)
+
+    # TODO: select features for wide & deep parts
     
+    # TODO: transformations (cross-products)
+    # from sklearn.preprocessing import PolynomialFeatures
+    # X = PolynomialFeatures(degree=1, interaction_only=True, include_bias=False).fit_transform(X)
+    
+    # df = pd.DataFrame(MinMaxScaler().fit_transform(df), columns=df.columns)
+
     X = df.values
     return X, y
 
