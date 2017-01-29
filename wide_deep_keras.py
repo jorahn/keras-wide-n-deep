@@ -41,7 +41,7 @@ def preprocess(df):
     
     # TODO: transformations (cross-products)
     # from sklearn.preprocessing import PolynomialFeatures
-    # X = PolynomialFeatures(degree=1, interaction_only=True, include_bias=False).fit_transform(X)
+    # X = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False).fit_transform(X)
     
     df = pd.DataFrame(MinMaxScaler().fit_transform(df), columns=df.columns)
 
